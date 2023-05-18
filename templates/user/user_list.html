@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="col-md-12">
+    <table class="table table-hover table-border">
+        <thead>
+            <th>Name</th>
+            <th>Join Date</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.get_full_name }}</td>
+                    <td>{{ user.date_joined }}</td>
+                    <td><a href="{% url 'update_user' user.pk %}" class="btn btn-success">Update</a> <a href="{% url 'user_details' user.pk %}">Details</a> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<br>
+<br>
+
+
+<a href="{% url 'create_user' %}" class="btn btn-info w-25">Create User</a>
+
+
+<strong>{{ name }}</strong>
+
+
+{% endblock %}
