@@ -20,9 +20,9 @@ from chat.models import (
 
 class ChatView(LoginRequiredMixin,View):
     template_name = 'chat/chat.html'
+
         
-        
-    def get_thread_name(self,logged_user_id,other_user_id):
+    def get_thread_name(self, logged_user_id, other_user_id):
         logged_user_id_is_bigger = logged_user_id > other_user_id
         if logged_user_id_is_bigger:
             thread_name = f'chat_{logged_user_id}-{other_user_id}'
@@ -36,9 +36,9 @@ class ChatView(LoginRequiredMixin,View):
         thread_name = self.get_thread_name(logged_user.id,other_user.id)
         
         context = {}
+        context['other_user'] = other_user
         context["dialogs"] = DialogsModel.get_dialogs_for_user(self.request.user)
         context['conversation'] = MessageModel.objects.filter(thread_name=thread_name)
-        context['other_user'] = other_user
         context['conversation_length'] = len(context['conversation'])
         return render(request,self.template_name,context)
     
