@@ -1,51 +1,41 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from typing import Any, Dict
 from django.contrib import messages
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import UpdateView, FormView, CreateView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic import View
+from django.contrib.auth import authenticate,login,logout
+from django.shortcuts import HttpResponseRedirect
+from django.views.generic.edit import FormView
 from .models import (
     User
 )
 from .forms import (
-    UserCreateForm
+    LoginForm
 )
 
 # Create your views here.
 
 
-class UserCreateView(CreateView):
-    form_class = UserCreateForm
-    template_name = 'user/create_user.html'
-    success_url = reverse_lazy("")
 
-
-class UserListView(ListView):
-    model = User
-    template_name = 'user/user_list.html'
-    context_object_name = 'users'
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = 'Shahin'
-        return context
+class LoginView(FormView):
+    template_name = 'auth/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('home')
     
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['login_form'] = self.get_form()
+        return context
 
-class UpdateUserView(UpdateView):
-    model = User
-    form_class = UserCreateForm
-    template_name = 'user/update_user.html'
-    success_url = reverse_lazy("user_list")
-
-
-class UserDetailview(DetailView):
-    model = User
-    template_name = 'user/user_detail.html'
-
-
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(self.request,username=username,password=password)
+        if user is None:
+            messages.warning(self.request,"Wrong Credentials")
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+        
+        login(self.request,user)
+        return super().form_valid(form)
 

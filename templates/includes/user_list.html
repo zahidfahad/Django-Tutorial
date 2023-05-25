@@ -1,0 +1,21 @@
+<div class="col-md-4">
+    <div class="table-responsive overflow-scroll">
+        <table class="table table-hover table-border">
+            <thead>
+                <th>Name</th>
+                <th>Join Date</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.get_full_name }}</td>
+                        <td>{{ user.date_joined }}</td>
+                        <td> <a href="{% url 'chat' user.id %}"> <i style="color:green; font-size:30px" class="fa fa-message"></i> </a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -50,6 +50,10 @@ class DialogsModel(models.Model):
         return None
 
     @property
+    def get_last_text(self):
+        return MessageModel.objects.filter(dialog=self).latest('sent')
+
+    @property
     def get_conversation(self):
         # returns whole convo
         return self.dialog_messages.all()

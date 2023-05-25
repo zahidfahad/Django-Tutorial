@@ -21,8 +21,8 @@ class User(AbstractUser):
     @property
     def get_full_name(self):
         if self.first_name or self.last_name:
-            return self.first_name + ' ' + self.last_name
-        return f"{self.username} returned from a property"
+            return self.first_name + ' ' if self.first_name else '' + self.last_name
+        return self.username
 
 
     class Meta:

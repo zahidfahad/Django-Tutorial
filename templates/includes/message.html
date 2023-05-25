@@ -1,0 +1,16 @@
+<!-- toast for messages -->
+{% if messages %}
+<div class="toaster-custom animate__animated animate__slideInRight toast-success" id="django-msg">
+    <div class="toast-body">
+
+        <div class="close-icon text-right">
+            <i class="fa fa-times" id="close-toast"></i>
+        </div>
+
+        <div class="toast-msg">
+            {% for message in messages %} {{ message }} {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- end toast -->
