@@ -51,3 +51,24 @@ class ChatView(LoginRequiredMixin,View):
             text = request.POST['chat_input'],
         )
         return redirect('chat',self.kwargs['other_user_id'])
+    
+    
+class WebSocketChatView(View):
+    template_name = 'chat/socket_chat.html'
+    
+    def get_thread_name(self, logged_user_id, other_user_id):
+        logged_user_id_is_bigger = logged_user_id > other_user_id
+        if logged_user_id_is_bigger:
+            thread_name = f'chat_{logged_user_id}-{other_user_id}'
+        else:
+            thread_name = thread_name = f'chat_{other_user_id}-{logged_user_id}'
+        return thread_name
+    
+    def get(self, request, *args, **kwargs):
+        other_user = User.objects.get(id=self.kwargs['other_user_id'])
+        thread_name = self.get_thread_name(request.user.id,other_user.id)
+        context = {
+            "other_user": other_user,
+            "thread_name": thread_name
+        }
+        return render(request,self.template_name,context)

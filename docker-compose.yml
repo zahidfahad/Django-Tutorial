@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+
+  db:
+    image: postgres:14.1
+    container_name: postgres
+    environment:
+        - POSTGRES_USER=${DATABASE_USER:-zhf}
+        - POSTGRES_PASSWORD=${DATABASE_PASSWORD:-zhf}
+        - POSTGRES_DB=zhf
+        - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+        - pgdata:/var/lib/postgresql/data/pgdata
+    ports:
+        - "5432:5432"
+    restart: always
+
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 5000
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - staticfiles:/opt/app/static/static_root
+      - mediafiles:/opt/app/media/
+      - .:/opt/app
+    depends_on:
+      - db
+
+
+  nginx:
+    image: nginx:mainline-alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - staticfiles:/opt/staticfiles
+      - mediafiles:/opt/mediafiles
+    depends_on:
+      - "web"
+
+
+  redis:
+      image: redis:latest
+
+
+volumes:
+  staticfiles:
+  mediafiles:
+  pgdata:

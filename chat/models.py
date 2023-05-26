@@ -126,7 +126,7 @@ class MessageModel(models.Model):
 
     # customizing model save method on upon every save call
     def save(self, *args, **kwargs):
-        # create dialog model if not exist
+        # create dialog model if not exists
         self.dialog = DialogsModel.create_if_not_exists(self.sender, self.receiver)
         super(MessageModel, self).save(*args, **kwargs)
 
