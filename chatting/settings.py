@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -11,7 +10,7 @@ SECRET_KEY = 'django-insecure-17=)+ohoq3&%=qb*a5$jb%bkknn-erstrb(l*%-=fn(^fjr3ps
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'chatting.urls'
 AUTH_USER_MODEL = 'user.User'
@@ -117,6 +117,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 # STATIC_ROOT = BASE_DIR / 'static'
+
 
 # media settings
 MEDIA_URL = '/media/'

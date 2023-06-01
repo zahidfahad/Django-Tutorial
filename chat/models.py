@@ -26,7 +26,7 @@ class DialogsModel(models.Model):
 
     @staticmethod
     def dialog_exists(u1: AbstractBaseUser, u2: AbstractBaseUser):
-        return DialogsModel.objects.filter(Q(user1=u1, user2=u2) | Q(user1=u2, user2=u1)).exists()   
+        return DialogsModel.objects.filter(Q(user1=u1, user2=u2) | Q(user1=u2, user2=u1)).exists() 
 
     @staticmethod
     def create_if_not_exists(u1: AbstractBaseUser, u2: AbstractBaseUser):
@@ -84,7 +84,6 @@ class DialogsModel(models.Model):
         # can not create a dialog with self
         if not self.user1 == self.user2:
             super(DialogsModel, self).save(*args, **kwargs)
-
 
 
 
