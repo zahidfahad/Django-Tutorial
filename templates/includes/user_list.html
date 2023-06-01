@@ -11,7 +11,10 @@
                     <tr>
                         <td>{{ user.get_full_name }}</td>
                         <td>{{ user.date_joined }}</td>
-                        <td> <a href="{% url 'chat' user.id %}"> <i style="color:green; font-size:30px" class="fa fa-message"></i> </a></td>
+                        <td> 
+                            <a href="{% url 'chat' user.id %}"> <i class="fa fa-inbox"></i> </a> <br>
+                            <a href="{% url 'socket_chat' user.id %}"> <i class="fab fa-facebook-messenger"></i> </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

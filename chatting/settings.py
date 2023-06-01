@@ -1,17 +1,14 @@
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-17=)+ohoq3&%=qb*a5$jb%bkknn-erstrb(l*%-=fn(^fjr3ps'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG')
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 PROJECTS_APPS = [
@@ -22,6 +19,7 @@ PROJECTS_APPS = [
 THIRD_PARTY_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
+    'channels',
 ]
 
 INSTALLED_APPS = [
@@ -68,22 +66,21 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chatting.wsgi.application'
+# WSGI_APPLICATION = "chatting.wsgi.application"
+ASGI_APPLICATION = "chatting.asgi.application"  
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,9 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Dhaka'
@@ -115,8 +109,8 @@ USE_TZ = True
 
 # Static files and more settings
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-# STATIC_ROOT = BASE_DIR / 'static'
+# STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'static'
 
 
 # media settings
@@ -124,11 +118,21 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+
+
+# Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(config('REDIS_URL'), config('REDIS_PORT'))],
+        },
+    },
+}
