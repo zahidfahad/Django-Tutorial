@@ -15,7 +15,8 @@ python manage.py migrate
 
 # Start the server
 echo "Starting Daphne"
-daphne -b 0.0.0.0 -p 5000 chatting.asgi:application
+# daphne -b 0.0.0.0 -p 5000 chatting.asgi:application
+python manage.py runserver 5000
 
 
 
