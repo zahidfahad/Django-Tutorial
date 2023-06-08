@@ -21,7 +21,7 @@ class ChatConsumer(WebsocketConsumer):
     
     
     def connect(self):
-        logged_user = self.scope['user'].id
+        logged_user = self.scope['user']
         other_user = User.objects.get(id=self.scope["url_route"]["kwargs"]["other_user_id"])
         thread_name = self.get_thread_name(logged_user.id,other_user.id)
         self.room_name = thread_name

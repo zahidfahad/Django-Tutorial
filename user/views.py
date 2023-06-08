@@ -41,3 +41,9 @@ class Logout(View):
         logout(request)
         return redirect('login')
 
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('login')
+

@@ -30,6 +30,7 @@ class ChatView(LoginRequiredMixin,View):
             thread_name = thread_name = f'chat_{other_user_id}-{logged_user_id}'
         return thread_name
     
+    
     def get(self, request, *args, **kwargs):
         logged_user = request.user
         other_user = User.objects.get(id=self.kwargs['other_user_id'])
