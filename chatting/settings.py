@@ -43,6 +43,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'user.middlewares.auth.CustomAuthentication',
+]
+
 ROOT_URLCONF = 'chatting.urls'
 AUTH_USER_MODEL = 'user.User'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"

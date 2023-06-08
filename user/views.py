@@ -1,15 +1,10 @@
-from typing import Any, Dict
 from django.contrib import messages
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import View
 from django.contrib.auth import authenticate,login,logout
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, redirect
 from django.views.generic.edit import FormView
-from .models import (
-    User
-)
+from django.views.generic import View
+
 from .forms import (
     LoginForm
 )
@@ -23,7 +18,7 @@ class LoginView(FormView):
     form_class = LoginForm
     success_url = reverse_lazy('home')
     
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['login_form'] = self.get_form()
         return context
@@ -38,4 +33,11 @@ class LoginView(FormView):
         
         login(self.request,user)
         return super().form_valid(form)
+    
+
+class Logout(View):
+    
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('login')
 
