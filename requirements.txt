@@ -30,3 +30,4 @@ typing_extensions==4.6.1
 zope.interface==6.0
 psycopg2==2.9.6
 python-decouple==3.8
+django-elasticsearch-dsl==7.3

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import HttpResponseRedirect, redirect
@@ -7,6 +8,10 @@ from django.views.generic import View
 
 from .forms import (
     LoginForm
+)
+
+from .models import (
+    User
 )
 
 # Create your views here.
@@ -36,14 +41,15 @@ class LoginView(FormView):
     
 
 class Logout(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('login')
+    
+    
+class Search(View):
+    
     
     def get(self, request, *args, **kwargs):
-        logout(request)
-        return redirect('login')
+        query = request.GET.get('search')
 
-
-class LogoutView(View):
-    def get(self, request, *args, **kwargs):
-        logout(request)
-        return redirect('login')
 

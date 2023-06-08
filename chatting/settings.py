@@ -20,6 +20,7 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'channels',
+    'django_elasticsearch_dsl',
 ]
 
 INSTALLED_APPS = [
@@ -87,8 +88,7 @@ ASGI_APPLICATION = "chatting.asgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase', # This is where you put the name of the db file. 
-                 # If one doesn't exist, it will be created at migration time.
+        'NAME': 'mydatabase',
     }
 }
 
@@ -145,5 +145,13 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [('127.0.0.1', 6379)],
         },
+    },
+}
+
+
+# elastic search
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
     },
 }

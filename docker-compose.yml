@@ -31,8 +31,6 @@ services:
       - staticfiles:/opt/app/static/static_root
       - mediafiles:/opt/app/media/
       - .:/opt/app
-
-    command: python manage.py runserver 5000
     depends_on:
       - db
 
